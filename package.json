@@ -1,0 +1,22 @@
+{
+  "name": "blockchain-repo",
+  "version": "1.0.0",
+  "description": "Blockchain Nanodegree Content",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izzyandrade/blockchain-nanodegree.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/izzyandrade/blockchain-nanodegree/issues"
+  },
+  "homepage": "https://github.com/izzyandrade/blockchain-nanodegree#readme",
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  }
+}
