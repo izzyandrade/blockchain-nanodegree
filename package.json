@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Blockchain Nanodegree Content",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/izzyandrade/blockchain-nanodegree#readme",
   "dependencies": {
-    "crypto-js": "^4.1.1"
+    "crypto-js": "^4.1.1",
+    "express": "^4.18.1",
+    "web3": "^1.7.5"
   }
 }

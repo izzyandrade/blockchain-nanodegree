@@ -1,6 +1,6 @@
-const BlockClass = require('./block.js');
+import Block from './block.js';
 
-const block = new BlockClass.Block('Test Block');
+const block = new Block('Test Block');
 
 block
   .generateHash()
