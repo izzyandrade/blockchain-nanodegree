@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Deploy a Remix Contract</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+  </head>
+
+  <body>
+    <div>
+      <h1>Ethereum Secret Messenger</h1>
+      <hr />
+
+      <label for="message"
+        >This site writes a secret message to the Ethereum blockchain!</label
+      >
+      <input id="userInput" type="text" />
+
+      <button id="setMessageButton">Set secret message</button>
+      <button id="getMessageButton">Get Current Message</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+      // Connect a the web3 provider
+      web3 = new Web3(
+        new Web3.providers.HttpProvider(
+          'https://rinkeby.infura.io/v3/d463e5ba89224a45ab3af3f32eaf0cb4'
+        )
+      );
+
+      const signer = web3.eth.accounts.privateKeyToAccount(
+        '606438de17a8d7250c9bc34cb7324c4cf8f9af83dcee3adc52d446412f6488b3'
+      );
+      web3.eth.accounts.wallet.add(signer);
+
+      var contract = new web3.eth.Contract(
+        [
+          {
+            constant: false,
+            inputs: [
+              {
+                name: 'message',
+                type: 'string',
+              },
+            ],
+            name: 'setMessage',
+            outputs: [],
+            payable: false,
+            stateMutability: 'nonpayable',
+            type: 'function',
+          },
+          {
+            constant: true,
+            inputs: [],
+            name: 'getMessage',
+            outputs: [
+              {
+                name: '',
+                type: 'string',
+              },
+            ],
+            payable: false,
+            stateMutability: 'view',
+            type: 'function',
+          },
+        ],
+        '0xF1e592A73FA371deD9B82D52758b5F04B3Bf150F'
+      );
+
+      // Get the contract address
+
+      $('#setMessageButton').click(async function () {
+        const tx = contract.methods.setMessage($('#userInput').val());
+        try {
+          const receipt = tx
+            .send({
+              from: signer.address,
+              gas: await tx.estimateGas(),
+            })
+            .once('transactionHash', (txhash) => {
+              console.log(`Mining transaction ...`);
+              console.log(`https://rinkeby.etherscan.io/tx/${txhash}`);
+            });
+        } catch (error) {
+          alert(error);
+        }
+      });
+
+      $('#getMessageButton').click(function () {
+        contract.methods.getMessage().call().then(console.log);
+      });
+    </script>
+  </body>
+</html>
