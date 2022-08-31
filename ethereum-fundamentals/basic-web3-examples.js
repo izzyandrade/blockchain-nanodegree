@@ -20,3 +20,12 @@ console.log('Balance is: ', accountBalance);
 //CONVERTING BALANCE FROM WEI TO ETHER
 const convertedAccountBalance = web3.utils.fromWei(accountBalance, 'ether');
 console.log('Balance converted to ether is: ', convertedAccountBalance);
+
+web3.eth.getGasPrice().then((price) => console.log('Gas Price: ', price));
+
+console.log('USING BLOCK 500: ');
+const uncle = await web3.eth.getUncle(500, 0);
+console.log('Block Uncle: ', uncle);
+web3.eth
+  .getBlockTransactionCount(uncle.parentHash)
+  .then((count) => console.log('Block Transaction Count: ', count));
