@@ -1,5 +1,5 @@
 var IzzyCoin = artifacts.require('IzzyCoin');
 
 module.exports = function (deployer) {
-  deployer.deploy(IzzyCoin, 1000);
+  deployer.deploy(IzzyCoin, BigInt(1000 * 10 ** 18));
 };
