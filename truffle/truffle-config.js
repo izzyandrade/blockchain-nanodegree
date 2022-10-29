@@ -44,6 +44,6 @@ module.exports.networks = {
 
 module.exports.compilers = {
   solc: {
-    version: '0.8.16', // Fetch exact version from solc-bin (default: truffle's version)
+    version: '0.8.17', // Fetch exact version from solc-bin (default: truffle's version)
   },
 };
