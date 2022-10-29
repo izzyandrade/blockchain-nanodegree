@@ -7,6 +7,9 @@ contract MultiSignature {
         bool isAdmin;
     }
 
+    uint constant M = 2;
+    address[] multiCalls = new address[](0);
+
     bool public operational;
 
     address private contractOwner; // Account used to deploy contract
@@ -49,7 +52,23 @@ contract MultiSignature {
         });
     }
 
-    function setOperational(bool isOperational) external requireContractOwner {
-        operational = isOperational;
+    function setOperational(bool isOperational) external {
+        require(isOperational != operational, "New mode must be setup when using this method");
+        require(userProfiles[msg.sender].isAdmin, "Caller is not an admin and shouldn't call this function");
+
+        bool isDuplicateSignature = false;
+        for(uint i = 0; i < multiCalls.length; i++){
+            if(multiCalls[i] == msg.sender){
+                isDuplicateSignature = true;
+                break;
+            }
+        }
+        require(!isDuplicateSignature, "Caller has already called and signed this function");
+
+        multiCalls.push(msg.sender);
+        if(multiCalls.length >= M) {
+            multiCalls = new address[](0);
+            operational = isOperational;
+        }
     }
 }

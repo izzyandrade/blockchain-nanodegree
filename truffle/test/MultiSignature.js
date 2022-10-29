@@ -19,12 +19,25 @@ contract('MultiSignature', async (accounts) => {
     assert.equal(result, true, 'Contract owner cannot register new user');
   });
 
-  it('contract owner can set operational flag', async () => {
-    let caller = accounts[0];
+  it('operational flag is set when multi-party threshold is reached', async () => {
+    let admin1 = accounts[1];
+    let admin2 = accounts[2];
+    let admin3 = accounts[3];
 
-    await config.multiSignature.setOperational(false, { from: caller });
+    await config.multiSignature.registerUser(admin1, true, {
+      from: config.owner,
+    });
+    await config.multiSignature.registerUser(admin2, true, {
+      from: config.owner,
+    });
+    await config.multiSignature.registerUser(admin3, true, {
+      from: config.owner,
+    });
 
-    let operational = await config.multiSignature.operational();
+    await config.multiSignature.setOperational(false, { from: admin1 });
+    await config.multiSignature.setOperational(false, { from: admin2 });
+
+    let operational = await config.multiSignature.operational.call();
 
     assert.equal(operational, false, 'The changes did not work');
   });
